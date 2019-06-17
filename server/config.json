@@ -1,3 +1,4 @@
 {
+    "mongo_uri": "mongodb://localhost:27017/emed",
     "bigchaindb_api": "http://localhost:9984/api/v1/"
 }
