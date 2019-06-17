@@ -23,7 +23,7 @@ export default class Server {
         const app = express();
         app.use(bodyParser.urlencoded({ extended: false }));
         app.use(bodyParser.json());
-        mongoose.connect(`mongodb://localhost:27017/${process.env.MONGO_DATABASE}`, { useNewUrlParser: true });
+        mongoose.connect(config.mongo_uri, { useNewUrlParser: true });
 
         // home route
         app.get("/", (request: Request, response: Response) => {
