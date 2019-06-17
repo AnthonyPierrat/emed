@@ -19,6 +19,7 @@ export default class AuthRouter {
      */
     public init() {
         this.router.post(`${this.path}/signup`, this.authController.signup);
+        this.router.post(`${this.path}/signin`, this.authController.signin);
     }
 
     /**
