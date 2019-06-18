@@ -17,6 +17,18 @@ export class AuthService {
     return this.http.post<any>(`${this.AUTH_URL}/signup`, data).pipe(catchError(this.handleError));
   }
 
+  public signin(data: any): Observable<any> {
+    return this.http.post<any>(`${this.AUTH_URL}/signin`, data).pipe(catchError(this.handleError));
+  }
+
+  public isLoggedIn(): boolean {
+    if (localStorage.getItem('currentUser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

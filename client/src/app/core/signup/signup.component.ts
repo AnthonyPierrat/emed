@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Router } from '@angular/router';
+import { toast } from "bulma-toast";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -17,8 +20,9 @@ export class SignupComponent implements OnInit {
   private firstNameCtrl: FormControl;
   private lastNameCtrl: FormControl;
   private birthdateCtrl: FormControl;
+  private selectCtrl: FormControl;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -28,11 +32,13 @@ export class SignupComponent implements OnInit {
     this.firstNameCtrl = new FormControl('', [Validators.required]);
     this.lastNameCtrl = new FormControl('', [Validators.required]);
     this.birthdateCtrl = new FormControl('', [Validators.required]);
+    this.selectCtrl = new FormControl('', [Validators.required]);
 
     this.signupForm = new FormGroup({
       email: this.emailCtrl,
       password: this.passwordCtrl,
       passwordConfirmation: this.passwordCtrl,
+      type: this.selectCtrl,
       firstName: this.firstNameCtrl,
       lastName: this.lastNameCtrl,
       birthdate: this.birthdateCtrl
@@ -40,17 +46,20 @@ export class SignupComponent implements OnInit {
   }
 
   private signup(user: any) {
-    let { email, password } = this.signupForm.value;
+    let { email, password, type } = this.signupForm.value;
     let { firstName, lastName, birthdate } = this.signupForm.value;
     const data = { firstName, lastName, birthdate };
-    this.authService.signup({ email, password, data }).subscribe(
+    this.authService.signup({ email, password, type, data }).subscribe(
       result => {
-
+        localStorage.setItem('currentUser', JSON.stringify(result));
       },
       error => {
-
+        this.toastr.error("Authentification", 'Something wrong happen', { timeOut: 3000 });
       },
-      () => { }
+      () => {
+        this.toastr.success("Authentification", 'Successfully signed up !', { timeOut: 3000 });
+        this.router.navigateByUrl('/dashboard');
+      }
     );
   }
 

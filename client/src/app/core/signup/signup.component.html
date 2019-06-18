@@ -10,6 +10,9 @@
             <span class="icon is-small is-right">
               <i class="fa fa-envelope"></i>
             </span>
+            <div *ngIf="emailCtrl.invalid && !emailCtrl.pristine">
+              <p *ngIf="emailCtrl.errors.email" class="is-size-7 has-text-danger">Valid email is required.</p>
+            </div>
           </div>
         </div>
 
@@ -50,6 +53,10 @@
             <span class="icon is-small is-right">
               <i class="fa fa-key"></i>
             </span>
+            <div *ngIf="passwordCtrl.invalid && !passwordCtrl.pristine">
+              <p *ngIf="passwordCtrl.errors.minlength" class="is-size-7 has-text-danger">Password should be at least 6
+                characters.</p>
+            </div>
           </div>
         </div>
 
@@ -63,8 +70,24 @@
           </div>
         </div>
 
+        <div class="field">
+          <label class="label">Type</label>
+          <div class="control has-icons-left">
+            <div class="select">
+              <select [formControl]="selectCtrl">
+                <option selected [ngValue]="1">Patient</option>
+                <option [ngValue]="2">Doctor</option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+        </div>
+
         <div class="has-text-centered">
-          <input class="button is-vcentered is-primary is-outlined" type="submit" value="Sign In !">
+          <input [disabled]="!signupForm.valid" class="button is-vcentered is-primary is-outlined" type="submit"
+            value="Sign Up !">
         </div>
         <div class="has-text-centered">
           <a routerLink="/signin" routerLinkActive="active"> Already have an account? Log in now !</a>
