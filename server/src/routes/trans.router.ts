@@ -18,7 +18,7 @@ export default class TransRouter {
      * Initialize API routes
      */
     public init() {
-        this.router.post(`${this.path}`, this.transController.transaction);
+        this.router.post(`${this.path}`, this.transController.addTransaction);
     }
 
     /**
