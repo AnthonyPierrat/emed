@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import * as config from "../config.json";
 import BigchainOrm from "./bigchain/bigchain-orm";
 import AuthRouter from "./routes/auth.router";
@@ -23,6 +24,7 @@ export default class Server {
         const app = express();
         app.use(bodyParser.urlencoded({ extended: false }));
         app.use(bodyParser.json());
+        app.use(cors());
         mongoose.connect(config.mongo_uri, { useNewUrlParser: true });
 
         // home route
