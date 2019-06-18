@@ -18,11 +18,6 @@ export default class User extends Typegoose {
     @prop({ required: true, enum: UserType })
     private _type: UserType;
 
-    constructor(values: Object = {}) {
-        super();
-        Object.assign(this, values);
-    }
-
     @prop()
     get publicKey(): string {
         return this._publicKey;
