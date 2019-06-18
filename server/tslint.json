@@ -12,8 +12,13 @@
         "no-empty": false,
         "no-var-requires": false,
         "object-literal-sort-keys": false,
+        "adjacent-overload-signatures": false,
         "max-line-length": [
             false
+        ],
+        "variable-name": [
+            false,
+            "check-format"
         ]
     },
     "rulesDirectory": []
