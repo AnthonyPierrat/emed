@@ -5,6 +5,7 @@ import cors from "cors";
 import * as config from "../config.json";
 import BigchainOrm from "./bigchain/bigchain-orm";
 import AuthRouter from "./routes/auth.router";
+import TransRouter from "./routes/trans.router";
 
 export default class Server {
 
@@ -35,6 +36,9 @@ export default class Server {
         // init auth router
         const authRouter = new AuthRouter();
         app.use(authRouter.get());
+
+        const transRouter = new TransRouter();
+        app.use("/api", transRouter.get());
 
         // listen
         app.listen(this.port, () => {
