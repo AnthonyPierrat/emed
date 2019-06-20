@@ -3,21 +3,23 @@ import { prop, Typegoose } from "typegoose";
 export default class Transaction extends Typegoose {
 
     @prop({ required: true })
-    private _userPublickey: string;
+    private _userPublicKey: string;
 
     @prop({ required: true })
     private _transactionId: string;
 
+    @prop()
     get userPublicKey(): string {
-        return this._userPublickey;
+        return this._userPublicKey;
     }
 
+    @prop()
     get transactionId(): string {
         return this._transactionId;
     }
 
     set userPublicKey(key: string) {
-        this._userPublickey = key;
+        this._userPublicKey = key;
     }
 
     set transactionId(transactionId) {

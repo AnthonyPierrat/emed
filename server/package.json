@@ -20,15 +20,15 @@
     "bigchaindb-orm": "^3.0.3",
     "bip39": "^2.5.0",
     "body-parser": "^1.19.0",
+    "class-validator": "^0.9.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "install": "^0.12.2",
     "mongoose": "^5.5.15",
-    "murmurhash": "0.0.2",
-    "murmurhash3": "^0.4.2",
     "npm": "^6.9.0",
     "reflect-metadata": "^0.1.13",
-    "typegoose": "^5.7.2"
+    "typegoose": "^5.7.2",
+    "typescript-validator": "^1.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.0",

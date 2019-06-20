@@ -26,7 +26,7 @@ export default class AuthController {
             // create asset and save transaction for history
             try {
                 const asset = await bddOrm.models.user.create({ keypair: userKey, data: { record } });
-                const savedTransaction = await TransactionModel.create({ _userPublickey: userKey.publicKey, _transactionId: asset.id });
+                const savedTransaction = await TransactionModel.create({ _userPublicKey: userKey.publicKey, _transactionId: asset.id });
             } catch (err) {
                 res.status(500).send("Something wrong happen");
             }
