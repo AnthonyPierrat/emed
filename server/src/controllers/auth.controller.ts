@@ -35,7 +35,6 @@ export default class AuthController {
             // hash user password
             password = await hash(password, 10);
             // save user
-<<<<<<< Updated upstream
             const savedUser = await UserModel.create({ _publicKey: userKey.publicKey, _email: email, _hashPrivateKey: userKey.privateKey, _hashPassword: password, _type: type });
             res.status(201).send({ success: true, message: "User successfully created", data: savedUser });
         }
@@ -55,13 +54,6 @@ export default class AuthController {
             } else {
                 res.status(200).send({ success: true, message: "Successfully logged in", data: checkUser });
             }
-=======
-            const savedUser = await UserModel.create({ token: userKey.publicKey, email });
-
-            const mailService = new MailService();
-            await mailService.sendMail(email, userKey.publicKey);
-            res.status(201).send(savedUser);
->>>>>>> Stashed changes
         }
     }
 
