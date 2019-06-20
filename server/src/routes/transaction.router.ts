@@ -21,6 +21,7 @@ export default class TransactionRouter {
         this.router.post(`${this.path}`, this.transController.addTransaction);
         this.router.get(`${this.path}/:pbk`, this.transController.getTransactionsByPublicKey);
         this.router.get(`${this.path}/:pbk/cansee`, this.transController.getTransactionsCanSee);
+        this.router.get(`${this.path}/:pbk/canwrite`, this.transController.getTransactionsCanWrite);
     }
 
     /**

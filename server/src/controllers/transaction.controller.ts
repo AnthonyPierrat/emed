@@ -1,3 +1,4 @@
+import { AssertionError } from "assert";
 import { validate } from "class-validator";
 import { Request, Response } from "express";
 import bddOrm from "../bigchain/bigchain-orm";
@@ -58,14 +59,34 @@ export default class AuthController {
         // retrieve data
         const userPublicKey = req.params.pbk;
         const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
-
+        console.log(userPublicKey);
         // check if transactions exist
         if (transaction) {
             const result = await bddOrm.models.user.retrieve();
             const allowedTransactions: any[] = [];
             // check wether the current pbk exist in blockchain assets
             result.forEach((asset) => {
-                if (asset.data.record._canSee.includes(userPublicKey)) {
+                if (asset.data.record._canSee && asset.data.record._canSee.includes(userPublicKey)) {
+                    allowedTransactions.push(asset);
+                }
+            });
+            res.status(200).send({ success: true, message: "Transactions successfully retrieved", data: allowedTransactions });
+        } else {
+            res.status(404).send({ success: false, message: "No transactions found" });
+        }
+    }
+
+    public async getTransactionsCanWrite(req: Request, res: Response) {
+        // retrieve data
+        const userPublicKey = req.params.pbk;
+        const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
+        // check if transactions exist
+        if (transaction) {
+            const result = await bddOrm.models.user.retrieve();
+            const allowedTransactions: any[] = [];
+            // check wether the current pbk exist in blockchain assets
+            result.forEach((asset) => {
+                if (asset.data.record._canWrite && asset.data.record._canWrite.includes(userPublicKey)) {
                     allowedTransactions.push(asset);
                 }
             });
