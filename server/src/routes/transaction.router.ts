@@ -1,16 +1,16 @@
 import { Router } from "express";
-import TransController from "../controllers/transaction.controller";
+import TransactionController from "../controllers/transaction.controller";
 
 export default class TransactionRouter {
 
     private path: string;
     private router: Router;
-    private transController: TransController;
+    private transController: TransactionController;
 
     constructor() {
         this.path = "/transactions";
         this.router = Router();
-        this.transController = new TransController();
+        this.transController = new TransactionController();
         this.init();
     }
 

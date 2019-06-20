@@ -27,6 +27,7 @@
     "mongoose": "^5.5.15",
     "npm": "^6.9.0",
     "reflect-metadata": "^0.1.13",
+    "typedi": "^0.8.0",
     "typegoose": "^5.7.2",
     "typescript-validator": "^1.0.2"
   },

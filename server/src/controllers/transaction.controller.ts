@@ -1,15 +1,16 @@
-import { AssertionError } from "assert";
 import { validate } from "class-validator";
 import { Request, Response } from "express";
-import bddOrm from "../bigchain/bigchain-orm";
-import { UserType } from "../enums/user-type.enum";
+import {Container, Inject } from "typedi";
 import Record from "../models/record.model";
 import Transaction, { TransactionModel } from "../models/transaction.model";
 import User, { UserModel } from "../models/user.model";
+import BigchainDbService from "../services/bigchaindb.service";
+import "reflect-metadata";
 
-export default class AuthController {
+export default class TransactionController {
 
-    constructor() { }
+    constructor() {
+     }
 
     public async addTransaction(req: Request, res: Response) {
         // retrieve data
@@ -23,22 +24,22 @@ export default class AuthController {
             // create asset and save transaction for history
             const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
             const user = await UserModel.findOne({ _publicKey: userPublicKey });
-            try {
-                bddOrm.models.user
-                    .retrieve(transaction.transactionId)
-                    .then((assets: any) => {
-                        if (assets.length) {
-                            assets[0].append({ toPublicKey: userPublicKey, keypair: { publicKey: user.publicKey, privateKey: user.hashPrivateKey }, data: { record } });
-                        } else {
-                            res.status(404).send("No assets to update");
-                        }
-                    })
-                    .then((updatedAsset: any) => {
-                        res.status(200).send({ success: true, message: "Asset successfully updated", data: updatedAsset });
-                    });
-            } catch (err) {
-                res.status(500).send("Something went wrong");
-            }
+            const bigchainService = Container.get(BigchainDbService);
+            const code = await bigchainService.append(user, userPublicKey, record, transaction);
+            switch (code) {
+                case 404: {
+                    res.status(404).send("No assets to update");
+                    break;
+                }
+                case 500: {
+                    res.status(500).send("Something went wrong");
+                    break;
+                }
+                default: {
+                    res.status(200).send({ success: true, message: "Asset successfully updated", data: code });
+                    break;
+                }
+             }
         }
     }
 
@@ -48,8 +49,9 @@ export default class AuthController {
         const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
 
         if (transaction) {
-            const result = await bddOrm.models.user.retrieve(transaction.transactionId);
-            res.status(200).send({ success: true, message: "Transactions successfully retrieved", data: result });
+            const bigchainService = Container.get(BigchainDbService);
+            const result = await bigchainService.retrieveById(transaction.transactionId);
+            res.status(200).send({ success: true, message: "Transactions successfully retrieved", data: result});
         } else {
             res.status(404).send({ success: false, message: "No transactions found" });
         }
@@ -59,10 +61,10 @@ export default class AuthController {
         // retrieve data
         const userPublicKey = req.params.pbk;
         const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
-        console.log(userPublicKey);
         // check if transactions exist
         if (transaction) {
-            const result = await bddOrm.models.user.retrieve();
+            const bigchainService = Container.get(BigchainDbService);
+            const result =  await bigchainService.retrieveAll();
             const allowedTransactions: any[] = [];
             // check wether the current pbk exist in blockchain assets
             result.forEach((asset) => {
@@ -82,8 +84,10 @@ export default class AuthController {
         const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
         // check if transactions exist
         if (transaction) {
-            const result = await bddOrm.models.user.retrieve();
+            const bigchainService = Container.get(BigchainDbService);
+            const result = await bigchainService.retrieveAll();
             const allowedTransactions: any[] = [];
+
             // check wether the current pbk exist in blockchain assets
             result.forEach((asset) => {
                 if (asset.data.record._canWrite && asset.data.record._canWrite.includes(userPublicKey)) {

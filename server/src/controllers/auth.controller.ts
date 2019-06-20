@@ -1,9 +1,9 @@
 import { compare, hash } from "bcrypt";
 import { Request, Response } from "express";
-import bddOrm from "../bigchain/bigchain-orm";
+import { Container } from "typedi";
 import { UserType } from "../enums/user-type.enum";
-import Transaction, { TransactionModel } from "../models/transaction.model";
 import User, { UserModel } from "../models/user.model";
+import BigchainDbService from "../services/bigchaindb.service";
 
 export default class AuthController {
 
@@ -21,21 +21,16 @@ export default class AuthController {
         } else {
             // retrieve data
             const record: any = req.body.data;
-            // generate key
-            const userKey = new bddOrm.driver.Ed25519Keypair();
-            // create asset and save transaction for history
-            try {
-                const asset = await bddOrm.models.user.create({ keypair: userKey, data: { record } });
-                const savedTransaction = await TransactionModel.create({ _userPublicKey: userKey.publicKey, _transactionId: asset.id });
-            } catch (err) {
-                res.status(500).send("Something wrong happen");
-            }
-
             // hash user password
             password = await hash(password, 10);
-            // save user
-            const savedUser = await UserModel.create({ _publicKey: userKey.publicKey, _email: email, _hashPrivateKey: userKey.privateKey, _hashPassword: password, _type: type });
-            res.status(201).send({ success: true, message: "User successfully created", data: savedUser });
+            // call creation service
+            const bigchainService = Container.get(BigchainDbService);
+            const code = await bigchainService.creation(password, record, email, type);
+            if (code === 500) {
+                res.status(500).send("Something wrong happen");
+            } else {
+                res.status(201).send({ success: true, message: "User successfully created", data: code });
+            }
         }
     }
 
