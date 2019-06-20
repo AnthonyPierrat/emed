@@ -4,6 +4,7 @@ import bddOrm from "../bigchain/bigchain-orm";
 import { UserType } from "../enums/user-type.enum";
 import Transaction, { TransactionModel } from "../models/transaction.model";
 import User, { UserModel } from "../models/user.model";
+import MailService from "../services/mail.service";
 
 export default class AuthController {
 
@@ -35,6 +36,8 @@ export default class AuthController {
             password = await hash(password, 10);
             // save user
             const savedUser = await UserModel.create({ _publicKey: userKey.publicKey, _email: email, _hashPrivateKey: userKey.privateKey, _hashPassword: password, _type: type });
+            const mailService = new MailService();
+            mailService.sendMail(savedUser);
             res.status(201).send({ success: true, message: "User successfully created", data: savedUser });
         }
     }
