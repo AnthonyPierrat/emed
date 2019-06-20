@@ -1,7 +1,7 @@
 import { Router } from "express";
-import TransController from "../controllers/trans.controller";
+import TransController from "../controllers/transaction.controller";
 
-export default class TransRouter {
+export default class TransactionRouter {
 
     private path: string;
     private router: Router;
@@ -19,6 +19,8 @@ export default class TransRouter {
      */
     public init() {
         this.router.post(`${this.path}`, this.transController.addTransaction);
+        this.router.get(`${this.path}/:pbk`, this.transController.getTransactionsByPublicKey);
+        this.router.get(`${this.path}/:pbk/cansee`, this.transController.getTransactionsCanSee);
     }
 
     /**

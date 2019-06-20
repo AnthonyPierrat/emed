@@ -1,11 +1,11 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
-import cors from "cors";
 import * as config from "../config.json";
 import BigchainOrm from "./bigchain/bigchain-orm";
 import AuthRouter from "./routes/auth.router";
-import TransRouter from "./routes/trans.router";
+import TransactionRouter from "./routes/transaction.router";
 
 export default class Server {
 
@@ -37,7 +37,7 @@ export default class Server {
         const authRouter = new AuthRouter();
         app.use(authRouter.get());
 
-        const transRouter = new TransRouter();
+        const transRouter = new TransactionRouter();
         app.use("/api", transRouter.get());
 
         // listen
