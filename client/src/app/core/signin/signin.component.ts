@@ -40,7 +40,7 @@ export class SigninComponent implements OnInit {
   private signin(user: any) {
     this.authService.signin(user).subscribe(
       result => {
-        localStorage.setItem('currentUser', JSON.stringify(result));
+        localStorage.setItem('currentUser', JSON.stringify(result.data));
       },
       error => {
         this.toastr.error("Authentification", 'Please check your credentials', { timeOut: 3000 });

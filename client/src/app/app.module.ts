@@ -12,6 +12,8 @@ import { SigninComponent } from './core/signin/signin.component';
 import { DashboardComponent } from './core/dashboard/dashboard.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { HeaderComponent } from './core/header/header.component';
+import { ProfileComponent } from './core/dashboard/profile/profile.component';
+import { HistoryComponent } from './core/dashboard/history/history.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HeaderComponent } from './core/header/header.component';
     SignupComponent,
     SigninComponent,
     DashboardComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProfileComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
