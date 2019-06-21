@@ -28,7 +28,7 @@ export default class AuthController {
                 const bigchainService = Container.get(BigchainDbService);
                 const code = await bigchainService.creation(password, record, email, type);
                 res.status(201).send({ success: true, message: "User successfully created", data: code });
-            }catch(err){
+            } catch (err) {
                 res.status(520).send({ success: false, message: err.message});
             }
         }

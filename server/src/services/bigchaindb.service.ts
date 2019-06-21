@@ -24,27 +24,24 @@ export default class BigchainDbService {
     }
 
     public async retrieveAll(): Promise<any[]> {
-        try{
+        try {
             const result = await bddOrm.models.user.retrieve();
             return result;
-        }
-        catch(err){
+        } catch (err) {
             throw TypeError("Something went wrong");
         }
     }
 
     public async retrieveById(id: string): Promise<any[]> {
-        try{
+        try {
             const result = await bddOrm.models.user.retrieve(id);
             return result;
-        }
-        catch(err){
+        } catch (err) {
             throw TypeError("Something went wrong");
         }
     }
 
     public async append(user: User, userPublicKey: string, record: any, transaction: Transaction): Promise<any> {
-        let code;
         try {
             const result = this.retrieveById(transaction.transactionId);
             result.then((assets: any) => {
@@ -56,7 +53,7 @@ export default class BigchainDbService {
                     }
                 });
         } catch (err) {
-            throw TypeError("Something went wrong"+ err.message);
+            throw TypeError("Something went wrong" + err.message);
         }
     }
 
