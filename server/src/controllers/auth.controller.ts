@@ -24,12 +24,12 @@ export default class AuthController {
             // hash user password
             password = await hash(password, 10);
             // call creation service
-            const bigchainService = Container.get(BigchainDbService);
-            const code = await bigchainService.creation(password, record, email, type);
-            if (code === 500) {
-                res.status(500).send("Something wrong happen");
-            } else {
+            try {
+                const bigchainService = Container.get(BigchainDbService);
+                const code = await bigchainService.creation(password, record, email, type);
                 res.status(201).send({ success: true, message: "User successfully created", data: code });
+            }catch(err){
+                res.status(520).send({ success: false, message: err.message});
             }
         }
     }

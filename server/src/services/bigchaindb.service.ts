@@ -15,7 +15,7 @@ export default class BigchainDbService {
             const asset = await bddOrm.models.user.create({ keypair: userKey, data: { record } });
             const savedTransaction = await TransactionModel.create({ _userPublicKey: userKey.publicKey, _transactionId: asset.id });
         } catch (err) {
-            return 500;
+            throw TypeError("Something wrong happen");
         }
 
         // save user
@@ -24,13 +24,23 @@ export default class BigchainDbService {
     }
 
     public async retrieveAll(): Promise<any[]> {
-        const result = await bddOrm.models.user.retrieve();
-        return result;
+        try{
+            const result = await bddOrm.models.user.retrieve();
+            return result;
+        }
+        catch(err){
+            throw TypeError("Something went wrong");
+        }
     }
 
     public async retrieveById(id: string): Promise<any[]> {
-        const result = await bddOrm.models.user.retrieve(id);
-        return result;
+        try{
+            const result = await bddOrm.models.user.retrieve(id);
+            return result;
+        }
+        catch(err){
+            throw TypeError("Something went wrong");
+        }
     }
 
     public async append(user: User, userPublicKey: string, record: any, transaction: Transaction): Promise<any> {
@@ -40,16 +50,13 @@ export default class BigchainDbService {
             result.then((assets: any) => {
                     if (assets.length) {
                         assets[0].append({ toPublicKey: userPublicKey, keypair: { publicKey: user.publicKey, privateKey: user.hashPrivateKey }, data: { record } });
-                        code = 200;
-                        return code;
+                        return assets[0];
                     } else {
-                        code = 404;
-                        return code;
+                        throw TypeError("No assets to update");
                     }
                 });
         } catch (err) {
-            code = 500;
-            return code;
+            throw TypeError("Something went wrong"+ err.message);
         }
     }
 

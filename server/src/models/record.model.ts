@@ -75,4 +75,63 @@ export default class Record {
         Object.assign(this, values);
     }
 
+    @IsDefined()
+    @IsString()
+    private _bloodtype: string;
+    public get bloodtype(): string {
+        return this._bloodtype;
+    }
+    public set bloodtype(value: string) {
+        this._bloodtype = value;
+    }
+
+    @IsDefined()
+    @IsString()
+    private _weight: Number;
+    public get weight(): Number {
+        return this._weight;
+    }
+    public set weight(value: Number) {
+        this._weight = value;
+    }
+
+    @IsDefined()
+    @IsString()
+    private _address: string;
+    public get address(): string {
+        return this._address;
+    }
+    public set address(value: string) {
+        this._address = value;
+    }
+
+    @IsDefined()
+    @IsString()
+    private _phoneNumber: string;
+    public get phoneNumber(): string {
+        return this._phoneNumber;
+    }
+    public set phoneNumber(value: string) {
+        this._phoneNumber = value;
+    }
+
+    @IsDefined()
+    @IsString()
+    private _height: number;
+    public get height(): number {
+        return this._height;
+    }
+    public set height(value: number) {
+        this._height = value;
+    }
+
+    @IsDefined()
+    @IsString()
+    private _sexe: string;
+    public get sexe(): string {
+        return this._sexe;
+    }
+    public set sexe(value: string) {
+        this._sexe = value;
+    }
 }
