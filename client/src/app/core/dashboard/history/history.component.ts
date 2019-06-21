@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Events } from 'src/app/shared/enums/event.enum';
+import { TransactionService } from 'src/app/shared/services/transaction.service';
 
 @Component({
   selector: 'app-history',
@@ -7,11 +9,24 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class HistoryComponent implements OnInit {
 
-  @Input() history: any[];
+  currentUser: any;
+  history: any[];
+  private Events: typeof Events = Events;
 
-  constructor() { }
+  constructor(private transactionService: TransactionService) { }
 
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.transactionService.getTransactionByPublicKey(this.currentUser._publicKey).subscribe(
+      (result: any) => {
+        this.history = result.data[0].transactionHistory.reverse();
+      },
+      error => {
+
+      },
+      () => {
+      }
+    );
   }
 
 }

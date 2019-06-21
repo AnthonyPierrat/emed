@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TransactionService } from 'src/app/shared/services/transaction.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,11 +8,23 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  @Input() profile: any;
+  currentUser: any;
+  profile: any;
 
-  constructor() { }
+  constructor(private transactionService: TransactionService) { }
 
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.transactionService.getTransactionByPublicKey(this.currentUser._publicKey).subscribe(
+      (result: any) => {
+        this.profile = result.data[0].data.record;
+      },
+      error => {
+
+      },
+      () => {
+      }
+    );
   }
 
 }

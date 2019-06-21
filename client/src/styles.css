@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+.pastel-red {
+    background-color: #ff6b6b;
+}
+
+.pastel-red-text {
+    color: #ff6b6b !important;
+}

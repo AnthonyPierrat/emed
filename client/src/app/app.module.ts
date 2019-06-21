@@ -14,6 +14,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { HeaderComponent } from './core/header/header.component';
 import { ProfileComponent } from './core/dashboard/profile/profile.component';
 import { HistoryComponent } from './core/dashboard/history/history.component';
+import { AccessComponent } from './core/dashboard/access/access.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HistoryComponent } from './core/dashboard/history/history.component';
     DashboardComponent,
     HeaderComponent,
     ProfileComponent,
-    HistoryComponent
+    HistoryComponent,
+    AccessComponent
   ],
   imports: [
     BrowserModule,

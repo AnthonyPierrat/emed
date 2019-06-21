@@ -1,13 +1,29 @@
 <app-header></app-header>
 <section class="section">
     <div class="container">
-        <div class="columns">
-            <div class="column is-one-quarter">
-                <app-profile [profile]="lastBlock"></app-profile>
-            </div>
-            <div class="column">
-                <app-history [history]="history"></app-history>
-            </div>
+        <div class="tabs is-centered is-boxed is-medium">
+            <ul>
+                <li (click)="activeTab=1" [ngClass]="{'is-active': activeTab === 1}">
+                    <a routerLink="profile" routerLinkActive="active">
+                        <span class="icon is-small"><i class="fas fa-user has-text-grey" aria-hidden="true"></i></span>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li (click)="activeTab=2" [ngClass]="{'is-active': activeTab === 2}">
+
+                    <a routerLink="history" routerLinkActive="active">
+                        <span class="icon is-small"><i class="fas fa-book-medical has-text-grey"></i></span>
+                        <span>History</span>
+                    </a>
+                </li>
+                <li (click)="activeTab=3" [ngClass]="{'is-active': activeTab === 3}">
+                    <a routerLink="access" routerLinkActive="active">
+                        <span class="icon is-small"><i class="fas fa-key has-text-grey" aria-hidden="true"></i></span>
+                        <span>Access Management</span>
+                    </a>
+                </li>
+            </ul>
         </div>
+        <router-outlet></router-outlet>
     </div>
 </section>

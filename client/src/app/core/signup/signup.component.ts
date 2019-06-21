@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { toast } from "bulma-toast";
 import { ToastrService } from 'ngx-toastr';
+import { Events } from 'src/app/shared/enums/event.enum';
 
 @Component({
   selector: 'app-signup',
@@ -21,6 +22,8 @@ export class SignupComponent implements OnInit {
   private lastNameCtrl: FormControl;
   private birthdateCtrl: FormControl;
   private selectCtrl: FormControl;
+  private Events: typeof Events = Events;
+
 
   constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
 
@@ -48,10 +51,10 @@ export class SignupComponent implements OnInit {
   private signup(user: any) {
     let { email, password, type } = this.signupForm.value;
     let { firstName, lastName, birthdate } = this.signupForm.value;
-    const data = { firstName, lastName, birthdate };
+    const data = { firstName, lastName, birthdate, event: Events.CREATION, message: "Account creation", canSee: [], canWrite: [] };
     this.authService.signup({ email, password, type, data }).subscribe(
       result => {
-        localStorage.setItem('currentUser', JSON.stringify(result));
+        localStorage.setItem('currentUser', JSON.stringify(result.data));
       },
       error => {
         this.toastr.error("Authentification", 'Something wrong happen', { timeOut: 3000 });
@@ -76,8 +79,6 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.value.password === this.signupForm.value.passwordConfirmation) {
       this.signup(this.signupForm.value);
     }
-
-    console.log(this.signupForm.value);
 
     this.submitted = false;
 

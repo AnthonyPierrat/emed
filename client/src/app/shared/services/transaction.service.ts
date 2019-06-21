@@ -17,6 +17,14 @@ export class TransactionService {
     return this.http.get<any[]>(`${this.API_URL}/transactions/${pbk}`).pipe(catchError(this.handleError));
   }
 
+  public getTransactionCanSee(pbk: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/transactions/${pbk}/cansee`).pipe(catchError(this.handleError));
+  }
+
+  public addTransaction(data: any): Observable<any[]> {
+    return this.http.post<any>(`${this.API_URL}/transactions`, data).pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

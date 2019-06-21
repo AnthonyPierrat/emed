@@ -1,15 +1,15 @@
-<h2 class="title is-2">Records history</h2>
+<h2 class="title is-3">Records history</h2>
 <div *ngFor="let transaction of history">
   <div class="card">
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
-          {{transaction.operation}}
+          <span class="tag is-danger is-medium">{{Events[transaction.metadata.record._event]}}</span>
         </p>
       </header>
       <div class="card-content">
         <div class="content">
-          <p>test test</p>
+          <p><i class="fas fa-comment"></i> {{transaction.metadata.record._message}}</p>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
-<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+<nav class="navbar pastel-red" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item">
-      <span class="is-size-4"><b>E-MED</b></span>
+      <span class="is-size-4 has-text-white"><i class="fas fa-briefcase-medical logo"></i><b>E-MED</b></span>
     </a>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -15,11 +15,11 @@
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-end">
       <div class="navbar-item">
-        <span>{{currentUser._publicKey}}</span>
+        <span class="has-text-white">{{currentUser._publicKey}}</span>
       </div>
       <div class="navbar-item">
         <div class="buttons">
-          <a (click)="logout()" class="button is-light">
+          <a (click)="logout()" class="button is-light pastel-red-text">
             Log out
           </a>
         </div>
