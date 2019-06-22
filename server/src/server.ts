@@ -3,7 +3,6 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import * as config from "../config.json";
-import BigchainOrm from "./bigchain/bigchain-orm";
 import AuthRouter from "./routes/auth.router";
 import TransactionRouter from "./routes/transaction.router";
 

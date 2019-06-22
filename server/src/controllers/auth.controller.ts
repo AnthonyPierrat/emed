@@ -1,11 +1,12 @@
 import { compare, hash } from "bcrypt";
 import { validate } from "class-validator";
 import { Request, Response } from "express";
-import bddOrm from "../bigchain/bigchain-orm";
+import { Container } from "typedi";
 import { UserType } from "../enums/user-type.enum";
 import Record from "../models/record.model";
 import Transaction, { TransactionModel } from "../models/transaction.model";
 import User, { UserModel } from "../models/user.model";
+import BigchainDbService from "../services/bigchaindb.service";
 import MailService from "../services/mail.service";
 
 export default class AuthController {
@@ -23,28 +24,18 @@ export default class AuthController {
             res.status(409).send({ success: false, message: "Email already exist" });
         } else {
             // retrieve data
-            const record: Record = new Record(req.body.data);
-            const isRecordValid = await validate(record);
-            if (isRecordValid.length > 0) {
-                res.status(500).send(isRecordValid);
-            } else {
-                // generate key
-                const userKey = new bddOrm.driver.Ed25519Keypair();
-                // create asset and save transaction for history
-                try {
-                    const asset = await bddOrm.models.user.create({ keypair: userKey, data: { record } });
-                    const savedTransaction = await TransactionModel.create({ _userPublicKey: userKey.publicKey, _transactionId: asset.id });
-                } catch (err) {
-                    res.status(500).send("Something wrong happen");
-                }
-
-                // hash user password
-                password = await hash(password, 10);
-                // save user
-                const savedUser = await UserModel.create({ _publicKey: userKey.publicKey, _email: email, _hashPrivateKey: userKey.privateKey, _hashPassword: password, _type: type });
-                const mailService = new MailService();
+            const record: any = req.body.data;
+            // hash user password
+            password = await hash(password, 10);
+            // call creation service
+            try {
+                const bigchainService = Container.get(BigchainDbService);
+                const savedUser = await bigchainService.creation(password, record, email, type);
+                const mailService = Container.get(MailService);
                 mailService.sendMail(savedUser);
                 res.status(201).send({ success: true, message: "User successfully created", data: savedUser });
+            } catch (err) {
+                res.status(520).send({ success: false, message: err.message });
             }
         }
     }
