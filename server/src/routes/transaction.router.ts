@@ -20,8 +20,8 @@ export default class TransactionRouter {
     public init() {
         this.router.post(`${this.path}`, this.transController.addTransaction);
         this.router.get(`${this.path}/:pbk`, this.transController.getTransactionsByPublicKey);
-        this.router.get(`${this.path}/:pbk/cansee`, this.transController.getTransactionsCanSee);
-        this.router.get(`${this.path}/:pbk/canwrite`, this.transController.getTransactionsCanWrite);
+        this.router.get(`${this.path}/:pbk/permissions`, this.transController.getPermissionsByPublicKey);
+        this.router.get(`${this.path}/:pbk/accesses`, this.transController.getAccessByPublicKey);
     }
 
     /**
