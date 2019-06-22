@@ -1,9 +1,13 @@
 import { compare, hash } from "bcrypt";
+import { validate } from "class-validator";
 import { Request, Response } from "express";
 import { Container } from "typedi";
 import { UserType } from "../enums/user-type.enum";
+import Record from "../models/record.model";
+import Transaction, { TransactionModel } from "../models/transaction.model";
 import User, { UserModel } from "../models/user.model";
 import BigchainDbService from "../services/bigchaindb.service";
+import MailService from "../services/mail.service";
 
 export default class AuthController {
 
@@ -26,10 +30,12 @@ export default class AuthController {
             // call creation service
             try {
                 const bigchainService = Container.get(BigchainDbService);
-                const code = await bigchainService.creation(password, record, email, type);
-                res.status(201).send({ success: true, message: "User successfully created", data: code });
+                const savedUser = await bigchainService.creation(password, record, email, type);
+                const mailService = Container.get(MailService);
+                mailService.sendMail(savedUser);
+                res.status(201).send({ success: true, message: "User successfully created", data: savedUser });
             } catch (err) {
-                res.status(520).send({ success: false, message: err.message});
+                res.status(520).send({ success: false, message: err.message });
             }
         }
     }

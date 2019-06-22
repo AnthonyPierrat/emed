@@ -1,0 +1,26 @@
+
+h1,h2,h3
+{   
+    text-align: center;
+    margin:0;
+    color: red;
+}
+ 
+header
+{
+    position: relative;
+    color:#fff;
+}
+
+
+body 
+{
+    font-family: Verdana, sans-serif; 
+    font-size: 100%;
+}
+
+#logo{
+    position : absolute;
+    right: 0;
+    top: 0;
+}

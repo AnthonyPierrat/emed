@@ -107,8 +107,8 @@ export default class TransactionController {
                 });
                 const usersCanSeeTransaction = await TransactionModel.find().where({ _transactionId: { $in: allowedTransactionsCanSee } });
                 const usersCanWriteTransaction = await TransactionModel.find().where({ _transactionId: { $in: allowedTransactionsCanWrite } });
-                const canSeeKeys = usersCanSeeTransaction.map((element: any) => { return element._userPublicKey });
-                const canWriteKeys = usersCanWriteTransaction.map((element: any) => { return element._userPublicKey });
+                const canSeeKeys = usersCanSeeTransaction.map((element: any) => element._userPublicKey);
+                const canWriteKeys = usersCanWriteTransaction.map((element: any) => element._userPublicKey);
                 const usersCanSee = await UserModel.find().where({ _publicKey: { $in: canSeeKeys } });
                 const usersCanWrite = await UserModel.find().where({ _publicKey: { $in: canWriteKeys } });
                 res.status(200).send({ success: true, message: "Transactions successfully retrieved", data: { usersCanSee, usersCanWrite } });
