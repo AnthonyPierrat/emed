@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 .pastel-red {
     background-color: #ff6b6b;
 }
@@ -6,3 +7,21 @@
 .pastel-red-text {
     color: #ff6b6b !important;
 }
+
+.card {
+    border-radius: 6px;
+}
+
+.body {
+    background-color: hsl(0, 0%, 96%)
+}
+
+.checkbox + .checkbox {
+    margin-left: 0.5em
+}
+
+.table__wrapper {
+    overflow-x: auto;
+    border-radius: 6px !important;
+
+  }

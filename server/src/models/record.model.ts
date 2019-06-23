@@ -1,4 +1,4 @@
-import { IsArray, IsDate, IsDefined, IsInt, IsNumber, IsString } from "class-validator";
+import { IsArray, IsDate, IsDefined, IsInt, IsNumber, IsString, IsOptional } from "class-validator";
 import { EventType } from "../enums/event-type.enum";
 import { SexType } from "../enums/sex-type.enum";
 
@@ -30,17 +30,19 @@ export default class Record {
     @IsString()
     private _message: string;
 
-    @IsDefined()
+    @IsOptional()
     @IsString()
     private _bloodType: string;
 
-    @IsDefined()
+    @IsOptional()
     @IsNumber()
     private _weight: Number;
 
+    @IsOptional()
     @IsNumber()
     private _height: number;
 
+    @IsOptional()
     @IsNumber()
     private _sex: SexType;
 

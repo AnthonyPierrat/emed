@@ -30,6 +30,7 @@ export default class TransactionController {
                     const lastCanSeeKey = record.canSee[record.canSee.length - 1];
                     const userRead = await UserModel.findOne({ _publicKey: lastCanSeeKey });
                     if (!userRead) {
+                        record.canSee.pop();
                         res.status(401).send({ success: false, message: "Transfer incorrect", data: null });
                     }
                 }
@@ -37,6 +38,7 @@ export default class TransactionController {
                     const lastCanWriteKey = record.canWrite[record.canWrite.length - 1];
                     const userWrite = await UserModel.findOne({ _publicKey: lastCanWriteKey });
                     if (!userWrite || userWrite.type !== 2) {
+                        record.canWrite.pop();
                         res.status(401).send({ success: false, message: "Transfer incorrect", data: null });
                     }
                 }

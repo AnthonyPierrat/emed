@@ -1,92 +1,111 @@
 <h2 class="title is-3">Access Management</h2>
-<form [formGroup]="accessForm" (ngSubmit)="onSubmit()">
-  <div class="columns">
-    <div class="column is-half">
-      <div class="field">
-        <div class="field">
-          <label class="label">Public Key</label>
-          <div class="control has-icons-right">
-            <input [formControl]="publicKeyCtrl" class="input" type="text">
-            <span class="icon is-small is-right">
-              <i class="fas fa-key"></i>
-            </span>
-            <div *ngIf="publicKeyCtrl.invalid && !publicKeyCtrl.pristine">
-              <p *ngIf="publicKeyCtrl.errors" class="is-size-7 has-text-danger">Key is required</p>
+<div class="card">
+  <div class="card-content">
+    <form [formGroup]="accessForm" (ngSubmit)="onSubmit()">
+      <div class="columns">
+        <div class="column is-half">
+          <div class="field">
+            <div class="field">
+              <label class="label">Public Key</label>
+              <div class="control has-icons-right">
+                <input [formControl]="publicKeyCtrl" class="input" type="text">
+                <span class="icon is-small is-right">
+                  <i class="fas fa-key"></i>
+                </span>
+                <div *ngIf="publicKeyCtrl.invalid && !publicKeyCtrl.pristine">
+                  <p *ngIf="publicKeyCtrl.errors" class="is-size-7 has-text-danger">Key is required</p>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input [formControl]="readCtrl" type="checkbox">
+                  Read
+                </label>
+                <label class="checkbox">
+                  <input [formControl]="writeCtrl" type="checkbox">
+                  Write
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <input class="button is-success" type="submit" value="Submit">
+              </div>
             </div>
           </div>
         </div>
-        <div class="field">
-          <div class="control">
-            <label class="checkbox">
-              <input [formControl]="readCtrl" type="checkbox">
-              Read
-            </label>
-            <label class="checkbox">
-              <input [formControl]="writeCtrl" type="checkbox">
-              Write
-            </label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <input class="button is-success" type="submit" value="Submit">
-          </div>
-        </div>
       </div>
-    </div>
+    </form>
   </div>
-</form>
+</div>
 
 <section class="section">
   <div class="columns">
     <div class="column is-half">
-      <h2 class="subtitle">Read Access</h2>
-      <div *ngIf="permissions.usersCanSee && permissions.usersCanSee.length > 0; else notCanSee">
-        <table class="table is-bordered is-striped is-narrow is-hoverable">
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th>Email</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of permissions.usersCanSee; let i = index">
-              <td>{{user._publicKey}}</td>
-              <td>{{user._email}}</td>
-              <td><button (click)="revokeRead(user._publicKey, i)" class="button is-danger">Revoke</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <ng-template #notCanSee>
-        <p>No read access found</p>
-      </ng-template>
-    </div>
-    <div class="column">
-      <div class="column is-half">
-        <h2 class="subtitle">Write Access</h2>
-        <div *ngIf="permissions.usersCanWrite && permissions.usersCanWrite.length > 0; else notCanWrite">
-          <table class="table is-bordered is-striped is-narrow is-hoverable">
-            <thead>
-              <tr>
-                <th>Key</th>
-                <th>Email</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of permissions.usersCanWrite; let i = index">
-                <td>{{user._publicKey}}</td>
-                <td>{{user._email}}</td>
-                <td><button (click)="revokeWrite(user._publicKey, i)" class="button is-danger">Revoke</button></td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="card">
+        <div class="card-header">
+          <p class="card-header-title"><span class="icon"><i class="far fa-eye"></i></span> Read Access to your medical
+            records
+          </p>
         </div>
-        <ng-template #notCanWrite>
-          <p>No write access found</p>
-        </ng-template>
+        <div class="card-content">
+          <div class="content">
+            <div *ngIf="permissions.usersCanSee && permissions.usersCanSee.length > 0; else notCanSee">
+              <table class="table is-bordered  is-striped is-narrow is-hoverable">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of permissions.usersCanSee; let i = index">
+                    <td>{{user._email}}</td>
+                    <td><a (click)="revokeRead(user._publicKey, i)" class="has-text-danger"><span class="icon"><i
+                            class="far fa-trash-alt"></i></span> Revoke write access</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ng-template #notCanSee>
+              <p>No read access found</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-half">
+      <div class="card">
+        <div class="card-header">
+          <p class="card-header-title"><span class="icon"><i class="fas fa-pen"></i></span>Write access to your medical
+            records</p>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            <div *ngIf="permissions.usersCanWrite && permissions.usersCanWrite.length > 0; else notCanWrite">
+              <table class="table is-bordered is-striped is-narrow is-hoverable">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of permissions.usersCanWrite; let i = index">
+                    <td>{{user._email}}</td>
+                    <td><a (click)="revokeWrite(user._publicKey, i)" class="has-text-danger"><span class="icon"><i
+                            class="far fa-trash-alt"></i></span> Revoke write access</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ng-template #notCanWrite>
+              <p>No write access found</p>
+            </ng-template>
+          </div>
+        </div>
       </div>
     </div>
   </div>

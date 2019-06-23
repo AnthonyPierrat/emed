@@ -3,6 +3,7 @@ import { TransactionService } from 'src/app/shared/services/transaction.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Events } from 'src/app/shared/enums/event.enum';
 import Record from 'src/app/shared/models/record.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-access',
@@ -21,7 +22,7 @@ export class AccessComponent implements OnInit {
   private writeCtrl: FormControl;
   private Events: typeof Events = Events;
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -54,7 +55,7 @@ export class AccessComponent implements OnInit {
   addTransaction(formValue) {
     let data: Record = new Record(this.lastBlock);
     data.event = Events.TRANSFER;
-    data.message = `You given access to your medical record to ${formValue.publicKey}`;
+    data.message = `New access to ${formValue.publicKey}`;
     if (formValue.read) {
       data.canSee.push(formValue.publicKey);
     }
@@ -66,10 +67,11 @@ export class AccessComponent implements OnInit {
         // todo
       },
       error => {
-        // todo
+        this.toastr.error("Grant Access", 'Transfer incorrect', { timeOut: 3000 });
       },
       () => {
-        // todo
+        this.toastr.success("Grant Access", 'You just granted new access !', { timeOut: 3000 });
+        location.reload();
       }
     );
   }
@@ -79,16 +81,17 @@ export class AccessComponent implements OnInit {
     const i = data.canWrite.indexOf(index);
     data.canWrite.splice(i, 1);
     data.event = Events.REVOKE;
-    data.message = `You have revoke write access to your medical record to ${key}`;
+    data.message = `Write access revoke to ${key}`;
     this.transactionService.addTransaction({ publicKey: this.currentUser._publicKey, data }).subscribe(
       result => {
         // todo
       },
       error => {
-        // todo
+        this.toastr.error("Revoke Access", 'Error while revoking write access', { timeOut: 3000 });
       },
       () => {
-        // todo
+        this.toastr.success("Revoke Access", 'You have revoked write access', { timeOut: 3000 });
+        location.reload();
       }
     );
   }
@@ -98,16 +101,17 @@ export class AccessComponent implements OnInit {
     const i = data.canSee.indexOf(index);
     data.canSee.splice(i, 1);
     data.event = Events.REVOKE;
-    data.message = `You have revoke read access to your medical record to ${key}`;
+    data.message = `Read access revoke to ${key}`;
     this.transactionService.addTransaction({ publicKey: this.currentUser._publicKey, data }).subscribe(
       result => {
         // todo
       },
       error => {
-        // todo
+        this.toastr.error("Revoke Access", 'Error while revoking read access', { timeOut: 3000 });
       },
       () => {
-        // todo
+        this.toastr.success("Revoke Access", 'You have revoked read access', { timeOut: 3000 });
+        location.reload();
       }
     );
   }

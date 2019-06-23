@@ -19,7 +19,7 @@ export class HistoryComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.transactionService.getTransactionByPublicKey(this.currentUser._publicKey).subscribe(
       (result: any) => {
-        this.history = result.data[0].transactionHistory.reverse();
+        this.history = result.data[0].transactionHistory;
       },
       error => {
 

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { toast } from "bulma-toast";
 import { ToastrService } from 'ngx-toastr';
 import { Events } from 'src/app/shared/enums/event.enum';
+import Record from 'src/app/shared/models/record.model';
 
 @Component({
   selector: 'app-signup',
@@ -51,7 +52,7 @@ export class SignupComponent implements OnInit {
   private signup(user: any) {
     let { email, password, type } = this.signupForm.value;
     let { firstName, lastName, birthdate } = this.signupForm.value;
-    const data = { firstName, lastName, birthdate, event: Events.CREATION, message: "Account creation", canSee: [], canWrite: [] };
+    const data = new Record({ firstName, lastName, birthdate, event: Events.CREATION, message: "Account creation", canSee: [], canWrite: [], height: null, weight: null, sex: null, bloodType: null });
     this.authService.signup({ email, password, type, data }).subscribe(
       result => {
         localStorage.setItem('currentUser', JSON.stringify(result.data));
