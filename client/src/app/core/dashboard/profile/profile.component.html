@@ -4,14 +4,14 @@
     <div class="content">
       <div class="columns">
         <div class="column">
-          <p class="is-size-5"><i class="fas fa-weight"></i> 80kg</p>
-          <p class="is-size-5"><i class="fas fa-ruler-vertical"></i> 180cm</p>
-          <p class="is-size-5"><i class="fas fa-tint"></i> A+</p>
+          <p *ngIf="profile._weight" class="is-size-5"><i class="fas fa-weight"></i> {{profile._weight}}</p>
+          <p *ngIf="profile._height" class="is-size-5"><i class="fas fa-ruler-vertical"></i> {{profile._height}}</p>
+          <p *ngIf="profile._bloodType" class="is-size-5"><i class="fas fa-tint"></i> {{profile._bloodType}}</p>
         </div>
         <div class="column">
-          <p class="is-size-5"><i class="fas fa-envelope"></i> test@test.fr</p>
-          <p class="is-size-5"><i class="fas fa-phone-alt"></i> +33 769088971</p>
-          <p class="is-size-5"><i class="fas fa-home"></i> UTBM Belfort 90000</p>
+          <p *ngIf="profile._sex" class="is-size-5"><i class="fas fa-user"></i> {{Genders[profile._sex]}}</p>
+          <p class="is-size-5"><i class="fas fa-birthday-cake"></i> {{profile._birthdate}}</p>
+          <p class="is-size-5"><i class="fas fa-envelope"></i> {{currentUser._email}}</p>
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ export default class AuthController {
             res.status(409).send({ success: false, message: "Email already exist" });
         } else {
             // retrieve data
-            const record: any = req.body.data;
+            const record: Record = new Record(req.body.data);
             // hash user password
             password = await hash(password, 10);
             // call creation service

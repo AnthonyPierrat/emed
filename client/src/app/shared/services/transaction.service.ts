@@ -17,8 +17,8 @@ export class TransactionService {
     return this.http.get<any[]>(`${this.API_URL}/transactions/${pbk}`).pipe(catchError(this.handleError));
   }
 
-  public getTransactionCanSee(pbk: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.API_URL}/transactions/${pbk}/cansee`).pipe(catchError(this.handleError));
+  public getPermissionsByPublicKey(pbk: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/transactions/${pbk}/permissions`).pipe(catchError(this.handleError));
   }
 
   public addTransaction(data: any): Observable<any[]> {

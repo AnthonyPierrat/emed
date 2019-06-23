@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TransactionService } from 'src/app/shared/services/transaction.service';
+import { Genders } from 'src/app/shared/enums/gender.enum';
 
 @Component({
   selector: 'app-profile',
@@ -10,6 +11,8 @@ export class ProfileComponent implements OnInit {
 
   currentUser: any;
   profile: any;
+  private Genders: typeof Genders = Genders;
+
 
   constructor(private transactionService: TransactionService) { }
 

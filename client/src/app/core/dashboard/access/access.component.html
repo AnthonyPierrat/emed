@@ -41,18 +41,20 @@
   <div class="columns">
     <div class="column is-half">
       <h2 class="subtitle">Read Access</h2>
-      <div *ngIf="canSee && canSee.length > 0; else notCanSee">
+      <div *ngIf="permissions.usersCanSee && permissions.usersCanSee.length > 0; else notCanSee">
         <table class="table is-bordered is-striped is-narrow is-hoverable">
           <thead>
             <tr>
               <th>Key</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of lastBlock._canSee">
-              <td>{{user}}</td>
-              <td><button class="button is-danger">Revoke</button></td>
+            <tr *ngFor="let user of permissions.usersCanSee; let i = index">
+              <td>{{user._publicKey}}</td>
+              <td>{{user._email}}</td>
+              <td><button (click)="revokeRead(user._publicKey, i)" class="button is-danger">Revoke</button></td>
             </tr>
           </tbody>
         </table>
@@ -64,20 +66,20 @@
     <div class="column">
       <div class="column is-half">
         <h2 class="subtitle">Write Access</h2>
-        <div *ngIf="canWrite && canWrite.length > 0; else notCanWrite">
+        <div *ngIf="permissions.usersCanWrite && permissions.usersCanWrite.length > 0; else notCanWrite">
           <table class="table is-bordered is-striped is-narrow is-hoverable">
             <thead>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Key</th>
+                <th>Email</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of canWrite">
-                <td>{{user.data.record._firstName}}</td>
-                <td>{{user.data.record._lastName}}</td>
-                <td><button class="button is-danger">Revoke</button></td>
+              <tr *ngFor="let user of permissions.usersCanWrite; let i = index">
+                <td>{{user._publicKey}}</td>
+                <td>{{user._email}}</td>
+                <td><button (click)="revokeWrite(user._publicKey, i)" class="button is-danger">Revoke</button></td>
               </tr>
             </tbody>
           </table>
