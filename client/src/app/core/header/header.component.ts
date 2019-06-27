@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Types } from 'src/app/shared/enums/type.enum';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   currentUser: any;
+  private Types: typeof Types = Types;
+
 
   constructor(private router: Router) { }
 

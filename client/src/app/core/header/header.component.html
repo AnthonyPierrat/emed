@@ -18,6 +18,9 @@
         <span class="has-text-white">{{currentUser._publicKey}}</span>
       </div>
       <div class="navbar-item">
+        <span class="tag is-white pastel-red-text">{{Types[currentUser._type]}}</span>
+      </div>
+      <div class="navbar-item">
         <div class="buttons">
           <a (click)="logout()" class="button is-light pastel-red-text">
             Log out

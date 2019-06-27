@@ -11,6 +11,10 @@ export default class MailService {
 
     constructor() { }
 
+    /**
+     * Send an email for account creation
+     * @param {User} user
+     */
     public async sendMail(user: User) {
 
         const transporter = nodeMailer.createTransport(smtpTransport({

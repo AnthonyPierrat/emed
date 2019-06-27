@@ -64,10 +64,14 @@ export class AccessComponent implements OnInit {
     }
     this.transactionService.addTransaction({ publicKey: this.currentUser._publicKey, data }).subscribe(
       (result: any) => {
-        this.lastBlock = result.data.record;
-        this.getPermissions();
+        if (result.data) {
+          this.lastBlock = result.data.record;
+          this.getPermissions();
+        }
       },
-      error => {
+      async (error) => {
+        this.accessForm.reset();
+        await this.getLastBlock();
         this.toastr.error("Grant Access", 'Transfer incorrect', { timeOut: 3000 });
       },
       () => {
@@ -99,7 +103,6 @@ export class AccessComponent implements OnInit {
 
   revokeRead(key, index) {
     let data: Record = new Record(this.lastBlock);
-    console.log(data);
     const i = data.canSee.indexOf(index);
     data.canSee.splice(i, 1);
     data.event = Events.REVOKE;

@@ -14,6 +14,12 @@ export default class TransactionController {
     constructor() {
     }
 
+    /**
+     * Add transaction to the blockchain
+     * This will create a new record that will be add to a current asset in the bigchainDB
+     * @param {Request} req
+     * @param {Response} res
+     */
     public async addTransaction(req: Request, res: Response) {
         // retrieve data
         const record: Record = new Record(req.body.data);
@@ -29,7 +35,7 @@ export default class TransactionController {
                 if (record.canSee.length > 0) {
                     const lastCanSeeKey = record.canSee[record.canSee.length - 1];
                     const userRead = await UserModel.findOne({ _publicKey: lastCanSeeKey });
-                    if (!userRead) {
+                    if (!userRead || record.canSee.filter((key) => key === lastCanSeeKey).length > 1) {
                         record.canSee.pop();
                         res.status(401).send({ success: false, message: "Transfer incorrect", data: null });
                     }
@@ -37,7 +43,7 @@ export default class TransactionController {
                 if (record.canWrite.length > 0) {
                     const lastCanWriteKey = record.canWrite[record.canWrite.length - 1];
                     const userWrite = await UserModel.findOne({ _publicKey: lastCanWriteKey });
-                    if (!userWrite || userWrite.type !== 2) {
+                    if (!userWrite || userWrite.type !== 2 || record.canWrite.filter((key) => key === lastCanWriteKey).length > 1) {
                         record.canWrite.pop();
                         res.status(401).send({ success: false, message: "Transfer incorrect", data: null });
                     }
@@ -50,6 +56,11 @@ export default class TransactionController {
         }
     }
 
+    /**
+     * Retrieve transactions using a public key
+     * @param {Request} req
+     * @param {Response} res
+     */
     public async getTransactionsByPublicKey(req: Request, res: Response) {
         // retrieve data
         const userPublicKey = req.params.pbk;
@@ -68,6 +79,11 @@ export default class TransactionController {
         }
     }
 
+    /**
+     * Retrieve the permissions from a specific asset using a public key
+     * @param {Request} req
+     * @param {Response} res
+     */
     public async getPermissionsByPublicKey(req: Request, res: Response) {
         // retrieve data
         const userPublicKey = req.params.pbk;
@@ -88,12 +104,18 @@ export default class TransactionController {
         }
     }
 
+    /**
+     * Retrieve accesses from a specific asset using a public key
+     * @param {Request} req
+     * @param {Response} res
+     */
     public async getAccessByPublicKey(req: Request, res: Response) {
         const userPublicKey = req.params.pbk;
         const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
         // check if transactions exist
         if (transaction) {
             try {
+                // retrieve transactions
                 const bigchainService = Container.get(BigchainDbService);
                 const result = await bigchainService.retrieveAll();
                 const allowedTransactionsCanSee: any[] = [];

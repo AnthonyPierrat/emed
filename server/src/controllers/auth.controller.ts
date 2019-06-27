@@ -13,6 +13,11 @@ export default class AuthController {
 
     constructor() { }
 
+    /**
+     * Sign up method
+     * @param {Request} req Request
+     * @param {Response} res Response
+     */
     public async signup(req: Request, res: Response) {
         // retrieve email
         const email: string = req.body.email;
@@ -40,6 +45,11 @@ export default class AuthController {
         }
     }
 
+    /**
+     * Sign in method
+     * @param {Request} req Request
+     * @param {Response} res Response
+     */
     public async signin(req: Request, res: Response) {
         const email: string = req.body.email;
         const password: string = req.body.password;
