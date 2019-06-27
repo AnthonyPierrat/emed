@@ -1,0 +1,90 @@
+<form [formGroup]="recordForm" (ngSubmit)="onSubmit()">
+    <div class="columns">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">First Name</label>
+                <div class="control has-icons-right">
+                    <input disabled [formControl]="firstNameCtrl" class="input" type="text">
+                    <div *ngIf="firstNameCtrl.invalid && !emailCtrl.pristine">
+                        <p *ngIf="firstNameCtrl.errors.firstName" class="is-size-7 has-text-danger">Valid email
+                            is required.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Last Name</label>
+                <div class="control has-icons-right">
+                    <input disabled [formControl]="lastNameCtrl" class="input" type="text">
+                    <div *ngIf="lastNameCtrl.invalid && !lastNameCtrl.pristine">
+                        <p *ngIf="lastNameCtrl.errors.lastName" class="is-size-7 has-text-danger">Valid email is
+                            required.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Birthday</label>
+                <div class="control has-icons-right">
+                    <input disabled [formControl]="birthdateCtrl" class="input" type="date" id="start" name="birthdate">
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-birthday-cake"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Blood Type</label>
+                <div class="control has-icons-right">
+                    <input [formControl]="bloodCtrl" class="input" type="text" id="start" name="birthdate">
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-tint"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Weight</label>
+                <div class="control has-icons-right">
+                    <input [formControl]="weightCtrl" class="input" type="number" id="start" name="weight">
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-weight"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Height</label>
+                <div class="control has-icons-right">
+                    <input [formControl]="heightCtrl" class="input" type="number" id="start" name="height">
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-ruler-vertical"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Message</label>
+        <div class="control has-icons-right">
+            <input [formControl]="messageCtrl" class="textarea">
+            <div *ngIf="messageCtrl.invalid && !messageCtrl.pristine">
+                <p *ngIf="messageCtrl.errors.messageCtrl" class="is-size-7 has-text-danger">Message is
+                    required.</p>
+            </div>
+        </div>
+    </div>
+    <button [disabled]="!recordForm.valid" class="button is-success" type="submit">Save </button>
+</form>

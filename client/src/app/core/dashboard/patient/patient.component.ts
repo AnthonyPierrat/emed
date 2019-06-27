@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from 'src/app/shared/services/transaction.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.css']
+  styleUrls: ['./patient.component.css'],
+
 })
 export class PatientComponent implements OnInit {
 
@@ -13,7 +15,6 @@ export class PatientComponent implements OnInit {
   private selectedPatient: any;
   private lastRecord: any;
   private toggle: boolean = false;
-
 
   constructor(private transactionService: TransactionService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -38,22 +39,25 @@ export class PatientComponent implements OnInit {
   getLastRecords(key: string) {
     this.transactionService.getTransactionByPublicKey(key).subscribe(
       (result: any) => {
-        this.lastRecord = result.data[0].data.record;
+        this.lastRecord = Object.assign({}, result.data[0].data.record);
+        console.log(this.lastRecord);
       },
       error => {
 
       },
-      () => { }
+      () => {
+        // refresh due to immutable object
+        // this.lastRecord.slice();
+      }
     )
   }
 
-  onUpdatePatient(patient: any) {
+  async onUpdatePatient(patient: any) {
     this.selectedPatient = patient;
-    console.log(this.selectedPatient);
-    this.getLastRecords(this.selectedPatient._publicKey);
+    await this.getLastRecords(this.selectedPatient._publicKey);
   }
 
-  toggleModal(toggle) {
+  toggleModal(toggle, reset) {
     this.toggle = !toggle;
   }
 

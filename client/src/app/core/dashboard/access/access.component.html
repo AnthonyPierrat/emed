@@ -52,7 +52,7 @@
         </div>
         <div class="card-content">
           <div class="content">
-            <div *ngIf="permissions.usersCanSee && permissions.usersCanSee.length > 0; else notCanSee">
+            <div *ngIf=" permissions && permissions.usersCanSee && permissions.usersCanSee.length > 0; else notCanSee">
               <table class="table is-bordered  is-striped is-narrow is-hoverable">
                 <thead>
                   <tr>
@@ -64,7 +64,7 @@
                   <tr *ngFor="let user of permissions.usersCanSee; let i = index">
                     <td>{{user._email}}</td>
                     <td><a (click)="revokeRead(user._publicKey, i)" class="has-text-danger"><span class="icon"><i
-                            class="far fa-trash-alt"></i></span> Revoke write access</a></td>
+                            class="far fa-trash-alt"></i></span> Revoke read access</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -84,7 +84,8 @@
         </div>
         <div class="card-content">
           <div class="content">
-            <div *ngIf="permissions.usersCanWrite && permissions.usersCanWrite.length > 0; else notCanWrite">
+            <div
+              *ngIf="permissions && permissions.usersCanWrite && permissions.usersCanWrite.length > 0; else notCanWrite">
               <table class="table is-bordered is-striped is-narrow is-hoverable">
                 <thead>
                   <tr>

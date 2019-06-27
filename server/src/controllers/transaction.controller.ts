@@ -46,7 +46,7 @@ export default class TransactionController {
             const transaction = await TransactionModel.findOne({ _userPublicKey: userPublicKey });
             const bigchainService = Container.get(BigchainDbService);
             const result = await bigchainService.append(currentUser, userPublicKey, record, transaction);
-            res.status(200).send({ success: true, message: "Transactions successfully updated", data: result });
+            res.status(200).send({ success: true, message: "Transactions successfully updated", data: result.data });
         }
     }
 

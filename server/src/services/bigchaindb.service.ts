@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {Service} from "typedi";
+import { Service } from "typedi";
 import bddOrm from "../bigchain/bigchain-orm";
 import { UserType } from "../enums/user-type.enum";
 import Transaction, { TransactionModel } from "../models/transaction.model";
@@ -32,7 +32,7 @@ export default class BigchainDbService {
         }
     }
 
-    public async retrieveById(id: string): Promise<any[]> {
+    public async retrieveById(id: string): Promise<any> {
         try {
             const result = await bddOrm.models.user.retrieve(id);
             return result;
@@ -43,15 +43,12 @@ export default class BigchainDbService {
 
     public async append(user: User, userPublicKey: string, record: any, transaction: Transaction): Promise<any> {
         try {
-            const result = this.retrieveById(transaction.transactionId);
-            result.then((assets: any) => {
-                    if (assets.length) {
-                        assets[0].append({ toPublicKey: userPublicKey, keypair: { publicKey: user.publicKey, privateKey: user.hashPrivateKey }, data: { record } });
-                        return assets[0];
-                    } else {
-                        throw TypeError("No assets to update");
-                    }
-                });
+            const result = await this.retrieveById(transaction.transactionId);
+            if (result.length > 0) {
+                return result[0].append({ toPublicKey: userPublicKey, keypair: { publicKey: user.publicKey, privateKey: user.hashPrivateKey }, data: { record } });
+            } else {
+                throw TypeError("No assets to update");
+            }
         } catch (err) {
             throw TypeError("Something went wrong" + err.message);
         }

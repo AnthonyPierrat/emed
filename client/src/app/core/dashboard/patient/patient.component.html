@@ -41,12 +41,8 @@
                 <button (click)="toggleModal(toggle)" class="delete" aria-label="close"></button>
             </header>
             <section class="modal-card-body">
-                <!-- Content ... -->
+                <app-record-form *ngIf="lastRecord" [record]="lastRecord" [patient]="selectedPatient"></app-record-form>
             </section>
-            <footer class="modal-card-foot">
-                <button class="button is-success">Save changes</button>
-                <button (click)="toggleModal(toggle)" class="button">Cancel</button>
-            </footer>
         </div>
     </div>
 </div>

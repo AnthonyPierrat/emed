@@ -18,6 +18,7 @@ import { AccessComponent } from './core/dashboard/access/access.component';
 import { PatientComponent } from './core/dashboard/patient/patient.component';
 import { DoctorGuard } from './shared/guards/doctor.guard';
 import { RecordComponent } from './core/dashboard/patient/record/record.component';
+import { RecordFormComponent } from './core/dashboard/patient/record-form/record-form.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RecordComponent } from './core/dashboard/patient/record/record.componen
     AccessComponent,
     PatientComponent,
     RecordComponent,
+    RecordFormComponent,
   ],
   imports: [
     BrowserModule,

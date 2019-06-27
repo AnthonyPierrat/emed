@@ -63,15 +63,16 @@ export class AccessComponent implements OnInit {
       data.canWrite.push(formValue.publicKey);
     }
     this.transactionService.addTransaction({ publicKey: this.currentUser._publicKey, data }).subscribe(
-      result => {
-        // todo
+      (result: any) => {
+        this.lastBlock = result.data.record;
+        this.getPermissions();
       },
       error => {
         this.toastr.error("Grant Access", 'Transfer incorrect', { timeOut: 3000 });
       },
       () => {
+        this.accessForm.reset();
         this.toastr.success("Grant Access", 'You just granted new access !', { timeOut: 3000 });
-        location.reload();
       }
     );
   }
@@ -83,35 +84,36 @@ export class AccessComponent implements OnInit {
     data.event = Events.REVOKE;
     data.message = `Write access revoke to ${key}`;
     this.transactionService.addTransaction({ publicKey: this.currentUser._publicKey, data }).subscribe(
-      result => {
-        // todo
+      (result: any) => {
+        this.lastBlock = result.data.record;
       },
       error => {
         this.toastr.error("Revoke Access", 'Error while revoking write access', { timeOut: 3000 });
       },
       () => {
+        this.getPermissions();
         this.toastr.success("Revoke Access", 'You have revoked write access', { timeOut: 3000 });
-        location.reload();
       }
     );
   }
 
   revokeRead(key, index) {
     let data: Record = new Record(this.lastBlock);
+    console.log(data);
     const i = data.canSee.indexOf(index);
     data.canSee.splice(i, 1);
     data.event = Events.REVOKE;
     data.message = `Read access revoke to ${key}`;
     this.transactionService.addTransaction({ publicKey: this.currentUser._publicKey, data }).subscribe(
-      result => {
-        // todo
+      (result: any) => {
+        this.lastBlock = result.data.record;
       },
       error => {
         this.toastr.error("Revoke Access", 'Error while revoking read access', { timeOut: 3000 });
       },
       () => {
+        this.getPermissions();
         this.toastr.success("Revoke Access", 'You have revoked read access', { timeOut: 3000 });
-        location.reload();
       }
     );
   }
