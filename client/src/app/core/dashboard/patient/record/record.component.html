@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-header">
+    <p class="card-header-title">Patient {{record._firstName}} {{record._lastName}}</p>
+  </div>
+  <div class="card-content">
+    <div class="content">
+      <div class="column">
+        <p *ngIf="record._weight; else notWeight" class="is-size-5"><i class="fas fa-weight"></i> {{record._weight}}
+        </p>
+        <ng-template #notWeight>
+          <p class="is-size-5"><i class="fas fa-weight"></i> Weight not available</p>
+        </ng-template>
+        <p *ngIf="record._height; else notHeight" class="is-size-5"><i class="fas fa-ruler-vertical"></i>
+          {{record._height}}</p>
+        <ng-template #notHeight>
+          <p class="is-size-5"><i class="fas fa-ruler-vertical"></i> Height not available</p>
+        </ng-template>
+        <p *ngIf="record._bloodType; else notBloodType" class="is-size-5"><i class="fas fa-tint"></i>
+          {{record._bloodType}}</p>
+        <ng-template #notBloodType>
+          <p class="is-size-5"><i class="fas fa-tint"></i> Blood type not available</p>
+        </ng-template>
+      </div>
+      <div class="column">
+        <p *ngIf="record._sex; else notSex" class="is-size-5"><i class="fas fa-user"></i> {{Genders[record._sex]}}
+        </p>
+        <ng-template #notSex>
+          <p class="is-size-5"><i class="fas fa-user"></i> Sex is not available</p>
+        </ng-template>
+        <p class="is-size-5"><i class="fas fa-birthday-cake"></i> {{record._birthdate}}</p>
+      </div>
+    </div>
+  </div>
+</div>

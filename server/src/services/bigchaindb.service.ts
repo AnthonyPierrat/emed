@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {Service} from "typedi";
+import { Service } from "typedi";
 import bddOrm from "../bigchain/bigchain-orm";
 import { UserType } from "../enums/user-type.enum";
 import Transaction, { TransactionModel } from "../models/transaction.model";
@@ -8,7 +8,15 @@ import User, { UserModel } from "../models/user.model";
 @Service()
 export default class BigchainDbService {
 
-    public async creation(password: String, record: any, email: String, type: UserType): Promise<any> {
+    /**
+     * Create a new asset in bigchainDB
+     * @param {string} password
+     * @param {any} record
+     * @param {string} email
+     * @param {UserType} type
+     * @returns {Promise}
+     */
+    public async creation(password: string, record: any, email: string, type: UserType): Promise<any> {
         // generate key
         const userKey = new bddOrm.driver.Ed25519Keypair();
         try {
@@ -23,6 +31,10 @@ export default class BigchainDbService {
         return savedUser;
     }
 
+    /**
+     * Retrieve all assets in the blockchain
+     * @returns {Promise}
+     */
     public async retrieveAll(): Promise<any[]> {
         try {
             const result = await bddOrm.models.user.retrieve();
@@ -32,7 +44,11 @@ export default class BigchainDbService {
         }
     }
 
-    public async retrieveById(id: string): Promise<any[]> {
+    /**
+     * Retrieve transactions assets using public key
+     * @param {string} id public key
+     */
+    public async retrieveById(id: string): Promise<any> {
         try {
             const result = await bddOrm.models.user.retrieve(id);
             return result;
@@ -41,17 +57,21 @@ export default class BigchainDbService {
         }
     }
 
+    /**
+     * Update an asset, will create a new transaction on a existing asset
+     * @param {User} user
+     * @param {string} userPublicKey
+     * @param {any} record
+     * @param {Transaction} transaction
+     */
     public async append(user: User, userPublicKey: string, record: any, transaction: Transaction): Promise<any> {
         try {
-            const result = this.retrieveById(transaction.transactionId);
-            result.then((assets: any) => {
-                    if (assets.length) {
-                        assets[0].append({ toPublicKey: userPublicKey, keypair: { publicKey: user.publicKey, privateKey: user.hashPrivateKey }, data: { record } });
-                        return assets[0];
-                    } else {
-                        throw TypeError("No assets to update");
-                    }
-                });
+            const result = await this.retrieveById(transaction.transactionId);
+            if (result.length > 0) {
+                return result[0].append({ toPublicKey: userPublicKey, keypair: { publicKey: user.publicKey, privateKey: user.hashPrivateKey }, data: { record } });
+            } else {
+                throw TypeError("No assets to update");
+            }
         } catch (err) {
             throw TypeError("Something went wrong" + err.message);
         }

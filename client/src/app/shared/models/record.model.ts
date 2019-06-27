@@ -1,52 +1,30 @@
-import { IsArray, IsDate, IsDefined, IsInt, IsNumber, IsOptional, IsString } from "class-validator";
-import { EventType } from "../enums/event-type.enum";
-import { SexType } from "../enums/sex-type.enum";
+import { Events } from '../enums/event.enum';
+import { Genders } from '../enums/gender.enum';
 
 export default class Record {
 
-    @IsDefined()
-    @IsString()
     private _firstName: string;
 
-    @IsDefined()
-    @IsString()
     private _lastName: string;
 
-    @IsDefined()
-    @IsString()
     private _birthdate: string;
 
-    @IsArray()
     private _canSee: string[];
 
-    @IsArray()
     private _canWrite: string[];
 
-    @IsDefined()
-    @IsNumber()
-    private _event: EventType;
+    private _event: Events;
 
-    @IsDefined()
-    @IsString()
     private _message: string;
 
-    @IsOptional()
-    @IsString()
     private _bloodType: string;
 
-    @IsOptional()
-    @IsNumber()
     private _weight: Number;
 
-    @IsOptional()
-    @IsNumber()
     private _height: number;
 
-    @IsOptional()
-    @IsNumber()
-    private _sex: SexType;
+    private _sex: Genders;
 
-    @IsDate()
     private _lastUpdate: Date;
 
     constructor(values: Object = {}) {
@@ -84,10 +62,10 @@ export default class Record {
     public set canWrite(value: string[]) {
         this._canWrite = value;
     }
-    public get event(): EventType {
+    public get event(): Events {
         return this._event;
     }
-    public set event(value: EventType) {
+    public set event(value: Events) {
         this._event = value;
     }
     public get message(): string {
@@ -114,10 +92,10 @@ export default class Record {
     public set height(value: number) {
         this._height = value;
     }
-    public get sex(): SexType {
+    public get sex(): Genders {
         return this._sex;
     }
-    public set sex(value: SexType) {
+    public set sex(value: Genders) {
         this._sex = value;
     }
 
