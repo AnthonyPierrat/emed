@@ -1,0 +1,52 @@
+<h2 class="title is-3">Patients</h2>
+<div class="columns">
+    <div class="column is-half">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title"><span class="icon"><i class="fas fa-list"></i></span> List of patients
+                </p>
+            </div>
+            <div class="card-content">
+                <div class="content">
+                    <table class="table is-bordered  is-striped is-narrow is-hoverable">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of patients; let i = index" (click)="onUpdatePatient(user)"
+                                [class.selected]="user === selectedPatient">
+                                <td>{{user._email}}</td>
+                                <td>
+                                    <a (click)="toggleModal(toggle)" class="button is-info">Add Record</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-half">
+        <app-record *ngIf="selectedPatient" [patient]="selectedPatient" [record]="lastRecord"></app-record>
+    </div>
+
+    <div [ngClass]="{'is-active': toggle}" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Add new record</p>
+                <button (click)="toggleModal(toggle)" class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <!-- Content ... -->
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success">Save changes</button>
+                <button (click)="toggleModal(toggle)" class="button">Cancel</button>
+            </footer>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,8 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { HistoryComponent } from './core/dashboard/history/history.component';
 import { ProfileComponent } from './core/dashboard/profile/profile.component';
 import { AccessComponent } from './core/dashboard/access/access.component';
+import { PatientComponent } from './core/dashboard/patient/patient.component';
+import { DoctorGuard } from './shared/guards/doctor.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -21,6 +23,7 @@ const routes: Routes = [
       { path: 'history', component: HistoryComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'access', component: AccessComponent },
+      { path: 'patients', component: PatientComponent, canActivate: [DoctorGuard] },
     ]
   },
 ];

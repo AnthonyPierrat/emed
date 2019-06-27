@@ -1,4 +1,4 @@
-import { IsArray, IsDate, IsDefined, IsInt, IsNumber, IsString, IsOptional } from "class-validator";
+import { IsArray, IsDate, IsDefined, IsInt, IsNumber, IsOptional, IsString } from "class-validator";
 import { EventType } from "../enums/event-type.enum";
 import { SexType } from "../enums/sex-type.enum";
 

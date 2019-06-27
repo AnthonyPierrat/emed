@@ -15,6 +15,9 @@ import { HeaderComponent } from './core/header/header.component';
 import { ProfileComponent } from './core/dashboard/profile/profile.component';
 import { HistoryComponent } from './core/dashboard/history/history.component';
 import { AccessComponent } from './core/dashboard/access/access.component';
+import { PatientComponent } from './core/dashboard/patient/patient.component';
+import { DoctorGuard } from './shared/guards/doctor.guard';
+import { RecordComponent } from './core/dashboard/patient/record/record.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { AccessComponent } from './core/dashboard/access/access.component';
     HeaderComponent,
     ProfileComponent,
     HistoryComponent,
-    AccessComponent
+    AccessComponent,
+    PatientComponent,
+    RecordComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,8 @@ import { AccessComponent } from './core/dashboard/access/access.component';
     HttpClientModule,
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    DoctorGuard
   ],
   bootstrap: [AppComponent]
 })

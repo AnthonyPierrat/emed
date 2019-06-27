@@ -9,8 +9,11 @@ import { TransactionService } from 'src/app/shared/services/transaction.service'
 export class DashboardComponent implements OnInit {
 
   private activeTab: number = 1;
+  private currentUser: any;
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
   }
